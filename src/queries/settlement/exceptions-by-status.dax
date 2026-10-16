@@ -1,0 +1,10 @@
+EVALUATE
+SELECTCOLUMNS(
+    ADDCOLUMNS(
+        FILTER(VALUES(exceptions[exception_status]), exceptions[exception_status] <> "exception_status"),
+        "Count", CALCULATE(COUNTROWS(exceptions), exceptions[exception_id] <> "exception_id")
+    ),
+    "Status", exceptions[exception_status],
+    "Count", [Count]
+)
+ORDER BY [Count] DESC

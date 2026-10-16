@@ -1,0 +1,9 @@
+EVALUATE
+SELECTCOLUMNS(
+    ADDCOLUMNS(
+        FILTER(VALUES(exceptions[severity]), exceptions[severity] <> "severity"),
+        "Count", CALCULATE(COUNTROWS(exceptions), exceptions[exception_id] <> "exception_id")
+    ),
+    "Severity", exceptions[severity],
+    "Count", [Count]
+)

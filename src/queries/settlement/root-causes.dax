@@ -1,0 +1,14 @@
+EVALUATE
+SELECTCOLUMNS(
+    TOPN(
+        6,
+        ADDCOLUMNS(
+            FILTER(VALUES(investigations[root_cause_category]), investigations[root_cause_category] <> "root_cause_category"),
+            "Count", CALCULATE(COUNTROWS(investigations), investigations[investigation_id] <> "investigation_id")
+        ),
+        [Count], DESC, investigations[root_cause_category], ASC
+    ),
+    "RootCause", investigations[root_cause_category],
+    "Count", [Count]
+)
+ORDER BY [Count] DESC

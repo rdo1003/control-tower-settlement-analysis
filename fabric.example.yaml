@@ -1,0 +1,11 @@
+activeProfile: default
+profiles:
+  default:
+    connections:
+      settlementModel:
+        workspaceId: 00000000-0000-0000-0000-000000000000
+        semanticModelId: 00000000-0000-0000-0000-000000000000
+    semanticModels:
+      settlementModel:
+        workspaceId: 00000000-0000-0000-0000-000000000000
+        itemId: 00000000-0000-0000-0000-000000000000

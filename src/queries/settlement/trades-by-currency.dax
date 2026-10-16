@@ -1,0 +1,16 @@
+EVALUATE
+SELECTCOLUMNS(
+    TOPN(
+        6,
+        ADDCOLUMNS(
+            FILTER(VALUES(trades[currency]), trades[currency] <> "currency"),
+            "Trades", CALCULATE(COUNTROWS(trades), trades[trade_id] <> "trade_id"),
+            "GrossAmount", CALCULATE(SUMX(FILTER(trades, trades[trade_id] <> "trade_id"), VALUE(trades[gross_amount])))
+        ),
+        [Trades], DESC, trades[currency], ASC
+    ),
+    "Currency", trades[currency],
+    "Trades", [Trades],
+    "GrossAmount", [GrossAmount]
+)
+ORDER BY [Trades] DESC

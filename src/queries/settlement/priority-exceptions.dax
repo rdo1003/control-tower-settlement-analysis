@@ -1,0 +1,17 @@
+EVALUATE
+TOPN(
+    8,
+    SELECTCOLUMNS(
+        FILTER(exceptions, exceptions[exception_id] <> "exception_id" && exceptions[exception_status] <> "RESOLVED"),
+        "ExceptionId", exceptions[exception_id],
+        "Type", exceptions[exception_type],
+        "Severity", exceptions[severity],
+        "Status", exceptions[exception_status],
+        "Counterparty", LOOKUPVALUE(counterparties[legal_name], counterparties[counterparty_id], exceptions[counterparty_id]),
+        "AgingDays", VALUE(exceptions[aging_days]),
+        "SlaBreached", exceptions[sla_breached],
+        "Priority", VALUE(exceptions[priority_score])
+    ),
+    [Priority], DESC, [AgingDays], DESC, [ExceptionId], ASC
+)
+ORDER BY [Priority] DESC, [AgingDays] DESC, [ExceptionId] ASC

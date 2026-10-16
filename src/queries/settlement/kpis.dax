@@ -1,0 +1,13 @@
+// Row 1 of each source CSV was loaded as data, so it is excluded from every aggregate.
+EVALUATE
+VAR ex = FILTER(exceptions, exceptions[exception_id] <> "exception_id")
+RETURN
+ROW(
+    "TotalTrades", COUNTROWS(FILTER(trades, trades[trade_id] <> "trade_id")),
+    "TotalExceptions", COUNTROWS(ex),
+    "OpenExceptions", COUNTROWS(FILTER(ex, exceptions[exception_status] <> "RESOLVED")),
+    "SlaBreached", COUNTROWS(FILTER(ex, exceptions[sla_breached] = "True")),
+    "FailAmount", SUMX(ex, VALUE(exceptions[fail_amount])),
+    "AvgAgingDays", AVERAGEX(ex, VALUE(exceptions[aging_days])),
+    "AgedOver7Days", COUNTROWS(FILTER(ex, VALUE(exceptions[aging_days]) > 7))
+)
